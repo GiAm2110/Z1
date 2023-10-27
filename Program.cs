@@ -1,16 +1,46 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
+using L1_1;
 
 namespace HelloApp
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            // string connectionString = "Server=localhost;Port=3306;Database=Taxi;Trusted_Connection=True;";
+            
+            DataBaceWorker.OpenConnection();
+
+
+            Console.WriteLine("База данных Taxi");
+
+            Console.WriteLine("Данные таблицы cars");
+            List<string[]> response = DataBaceWorker.ExecuteQuery("SELECT model,reg_number,id FROM cars",3);
+            foreach(string[] item in response)
+                Console.WriteLine(item[0] + " " + item[1] + " " + item[2]);
+
+            Console.WriteLine("Данные таблицы passangers");
+            List<string[]> response2 = DataBaceWorker.ExecuteQuery("SELECT * FROM passangers", 3);
+            foreach (string[] item in response2)
+                Console.WriteLine(item[0] + " " + item[1] + " " + item[2]);
+
+
+
+            DataBaceWorker.CloseConnection();
+
+            Console.ReadLine();
+            
+
+
+
+
+
+            /*
             String connStr = "Server=localhost;Database=Taxi;User=root;password=;";
 
             MySqlConnection conn = new MySqlConnection(connStr);
@@ -44,6 +74,13 @@ namespace HelloApp
             reader1.Close();
 
             conn.Close();
+            */
+
+
+
+
+
+
         }
     }
 }
